@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+  mongo:
+    image: mongo
+    volumes:
+      - ./storage/:/data/db
+
+  redis:
+    image: redis:3.0.7-alpine
+    command: redis-server --appendonly yes
+    volumes:
+      - ./redis-data:/data
+
+  registry-server:
+    image: rezme/registry-server:latest
+    env_file: .env
+    links:
+      - mongo
+      - redis
+
+  api-resume-subscription:
+    image: rezme/resume-subscription-api:latest
+    env_file: .env
+    depends_on:
+      - mongo
+
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx-conf:/etc/nginx/conf.d
+    depends_on:
+      - api-resume-subscription
+      - registry-server
