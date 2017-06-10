@@ -19,7 +19,7 @@ services:
       - mongo
       - redis
 
-  api-resume-subscription:
+  api-resume-subscriptions:
     image: rezme/resume-subscription-api:latest
     env_file: .env
     depends_on:
@@ -32,5 +32,5 @@ services:
     volumes:
       - ./nginx-conf:/etc/nginx/conf.d
     depends_on:
-      - api-resume-subscription
+      - api-resume-subscriptions
       - registry-server
