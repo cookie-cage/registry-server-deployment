@@ -21,7 +21,15 @@ services:
 
   api-resume-subscriptions:
     image: rezme/resume-subscription-api:latest
-    env_file: .env
+    environment:
+      - MONGO_URI=mongodb://mongo/subscription
+    depends_on:
+      - mongo
+
+  api-resume-tokens:
+    image: rezme/resume-token-api:latest
+    environment:
+      - MONGO_URI=mongodb://mongo/token
     depends_on:
       - mongo
 
@@ -34,3 +42,4 @@ services:
     depends_on:
       - api-resume-subscriptions
       - registry-server
+      - api-resume-tokens
