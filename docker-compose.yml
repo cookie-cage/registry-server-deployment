@@ -19,20 +19,6 @@ services:
       - mongo
       - redis
 
-  api-resume-subscriptions:
-    image: rezme/resume-subscription-api:latest
-    environment:
-      - MONGO_URI=mongodb://mongo/subscription
-    depends_on:
-      - mongo
-
-  api-resume-tokens:
-    image: rezme/resume-token-api:latest
-    environment:
-      - MONGO_URI=mongodb://mongo/token
-    depends_on:
-      - mongo
-
   nginx:
     image: nginx
     ports:
@@ -40,6 +26,4 @@ services:
     volumes:
       - ./nginx-conf:/etc/nginx/conf.d
     depends_on:
-      - api-resume-subscriptions
       - registry-server
-      - api-resume-tokens
